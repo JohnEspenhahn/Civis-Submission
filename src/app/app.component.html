@@ -1,3 +1,2 @@
-<h1>
-  {{title}}
-</h1>
+<splashscreen *ngIf="!(auth | async)"></splashscreen>
+<maincontent *ngIf="auth | async"></maincontent>

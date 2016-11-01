@@ -18,9 +18,12 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/material-design-lite/dist/material.blue_grey-orange.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/material-design-lite/dist/material.min.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

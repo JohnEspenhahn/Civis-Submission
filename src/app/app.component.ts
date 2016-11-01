@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularFire, FirebaseListObservable, FirebaseAuth } from 'angularfire2';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  
+  url_entities: FirebaseListObservable<any>;
+  
+  constructor(private af: AngularFire, private auth: FirebaseAuth) {
+    this.url_entities = af.database.list('/urls');
+  }
+  
+  logout() {
+     this.af.auth.logout();
+  }
+  
 }
