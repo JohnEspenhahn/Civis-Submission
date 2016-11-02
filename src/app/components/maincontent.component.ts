@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 
 @Component({
   selector: 'maincontent',
@@ -7,23 +7,49 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 })
 export class MainContentComponent {
 
+  userUID: string;
   urls: FirebaseListObservable<any>;
-  state: string;
+  displayPage: string;
 
   constructor(private af: AngularFire) {
-    this.urls = af.database.list('/urls');
-    this.urls.subscribe((url) => {
-      console.log(url.child("/stars"));
-    });
+    this.urls = af.database.list('/urls', { preserveSnapshot: true });    
+    this.af.auth.subscribe((state: FirebaseAuthState) => {
+          this.userUID = state.auth.uid;
+      });
     
-    this.state = 'posts';
+    this.displayPage = 'posts';
+  }
+  
+  like(url: firebase.database.DataSnapshot) {
+    if (this.userUID) {
+      url.ref.child('likes/' + this.userUID).set(true);
+    }
+  }
+  
+  unlike(url: firebase.database.DataSnapshot) {
+    if (this.userUID) {
+      url.ref.child('likes/' + this.userUID).remove();
+    }
+  }
+  
+  doesUserLike(url: firebase.database.DataSnapshot) {
+    if (this.userUID) return url.hasChild('likes/' + this.userUID);
+    else return false;
+  }
+  
+  countUrlLikes(url: firebase.database.DataSnapshot) {
+    return url.child('likes').numChildren();
   }
   
   logout() {
     this.af.auth.logout();
   }
   
-  newPost() {
-    
+  viewRecentPosts() {
+    this.displayPage = 'posts';
+  }
+  
+  newUrl() {
+    this.displayPage = 'newurl';
   }
 }

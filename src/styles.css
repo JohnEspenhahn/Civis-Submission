@@ -298,9 +298,6 @@ h3 {
 .post .star .material-icons:HOVER {
     opacity: 0.6;
 }
-.post .star .starred {
-    display: none;
-}
 
 /* Splash Page */
 
