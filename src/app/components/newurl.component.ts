@@ -6,10 +6,12 @@ import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularf
   templateUrl: './newurl.component.html',
   styles: [`
     .ng-valid[required], .ng-valid.required  {
+      padding-left: 2px;
       border-left: 5px solid #42A948; /* green */
     }
 
     .ng-invalid:not(form)  {
+      padding-left: 2px;
       border-left: 5px solid #a94442; /* red */
     }
   `]
@@ -33,7 +35,7 @@ export class NewUrlComponent {
   
   addPost() {
     this.urls.push({ 
-      upvotes: 0,
+      upvotes: [ ],
       text: this.message,
       author: this.username
     });

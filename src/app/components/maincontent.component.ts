@@ -12,6 +12,10 @@ export class MainContentComponent {
 
   constructor(private af: AngularFire) {
     this.urls = af.database.list('/urls');
+    this.urls.subscribe((url) => {
+      console.log(url.child("/stars"));
+    });
+    
     this.state = 'posts';
   }
   

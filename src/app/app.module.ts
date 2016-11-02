@@ -5,8 +5,6 @@ import { FormsModule }   from '@angular/forms';
 import { SplashScreenComponent } from './components/splashscreen.component';
 import { MainContentComponent } from './components/maincontent.component';
 import { NewUrlComponent } from './components/newurl.component';
-
-import * as firebase from 'firebase';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
 // Must export the config
@@ -21,7 +19,7 @@ export const firebaseConfig = {
 const myFirebaseAuthConfig = {
   provider: AuthProviders.Google,
   method: AuthMethods.Redirect
-}
+};
 
 @NgModule({
   imports: [

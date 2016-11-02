@@ -43,7 +43,7 @@
           <span class="star">
             <div class="not-starred material-icons">star_border</div>
             <div class="starred material-icons">star</div>
-            <div class="star-count">{{ url.upvotes }}</div>
+            <div class="star-count">{{ url.upvotes ? url.upvotes : 0 }}</div>
           </span>
           <div class="text">{{ url.text }}</div>
           <div class="comments-container"></div>
