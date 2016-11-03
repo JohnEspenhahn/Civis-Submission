@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFire } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 
 @Component({
   selector: 'splashscreen',
@@ -11,6 +11,13 @@ export class SplashScreenComponent {
   
   login() {
     this.af.auth.login();
+  }
+  
+  loginAnonymously() {
+    this.af.auth.login({
+      provider: AuthProviders.Anonymous,
+      method: AuthMethods.Anonymous
+    });
   }
   
 }

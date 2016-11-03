@@ -2,7 +2,7 @@
 <header class="header mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
 
   <div class="mdl-layout__header-row titlebar">
-    <h3 class="logo">Database Web Quickstart</h3>
+    <h3 class="logo">Civis Analytics Submission<small *ngIf="displayName"> - {{ displayName }}</small></h3>
     <button id="sign-out-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="logout()">
       <i class="material-icons">account_circle</i> Sign out
     </button>
@@ -41,9 +41,9 @@
           </div>
           <div class="header"></div>
           <span class="star">
-            <div class="not-starred material-icons" (click)="like(url)" *ngIf="!doesUserLike(url)">star_border</div>
-            <div class="starred material-icons" (click)="unlike(url)" *ngIf="doesUserLike(url)">star</div>
-            <div class="star-count">{{ countUrlLikes(url) }}</div>
+            <div class="not-starred material-icons" (click)="like(url)" *ngIf="!(doesUserLike(url) | async)">star_border</div>
+            <div class="starred material-icons" (click)="unlike(url)" *ngIf="doesUserLike(url) | async">star</div>
+            <div class="star-count">{{ countUrlLikes(url) | async }}</div>
           </span>
           <div class="text">{{ url.val().text }}</div>
           <div class="comments-container"></div>

@@ -20,7 +20,7 @@ export class NewUrlComponent {
   addPost() {
     if (this.message) {
       var subscription = this.af.auth.subscribe((state: FirebaseAuthState) => {
-            const username = state.auth.displayName;            
+            const username = state.auth.displayName || 'Anonymous';
             const urls = this.af.database.list('/urls');
             urls.push({
               text: this.message,
