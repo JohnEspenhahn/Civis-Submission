@@ -7,6 +7,8 @@ import { MainContentComponent } from './components/maincontent.component';
 import { NewUrlComponent } from './components/newurl.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
+import { CountPipe } from './pipes/count.pipe';
+
 // Must export the config
 export const firebaseConfig = {
   apiKey: 'AIzaSyCJIe5yiXfaUWMVnxe2g7WwFdecuaaXLIk',
@@ -31,7 +33,8 @@ const myFirebaseAuthConfig = {
     AppComponent,
     SplashScreenComponent,
     MainContentComponent,
-    NewUrlComponent
+    NewUrlComponent,
+    CountPipe
   ],
   bootstrap: [ AppComponent ]
 })

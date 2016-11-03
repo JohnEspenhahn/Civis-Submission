@@ -23,6 +23,7 @@ export class NewUrlComponent {
             const username = state.auth.displayName || 'Anonymous';
             const urls = this.af.database.list('/urls');
             urls.push({
+              likes: {},
               text: this.message,
               author: username
             });

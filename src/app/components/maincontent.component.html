@@ -30,22 +30,22 @@
 <main class="mdl-layout__content mdl-color--grey-100">
 
   <newurl *ngIf="displayPage == 'newurl'" (onFinished)="viewRecentPosts()"></newurl>
-
+  
   <!-- Show a list of recent posts -->
   <section class="mdl-grid content" id="recent-posts-list" *ngIf="displayPage == 'posts'">
     <div class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-      <div *ngFor="let url of urls | async" class="post mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">
+      <div *ngFor="let url of urls" class="post mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">
         <div class="mdl-card mdl-shadow--2dp">
           <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-            <h4 class="mdl-card__title-text">{{ url.val().author }}</h4>
+            <h4 class="mdl-card__title-text">{{ url.author }}</h4>
           </div>
           <div class="header"></div>
           <span class="star">
-            <div class="not-starred material-icons" (click)="like(url)" *ngIf="!(doesUserLike(url) | async)">star_border</div>
-            <div class="starred material-icons" (click)="unlike(url)" *ngIf="doesUserLike(url) | async">star</div>
-            <div class="star-count">{{ countUrlLikes(url) | async }}</div>
+            <div class="not-starred material-icons" (click)="like(url)" *ngIf="!(url.likes && url.likes[userUID])">star_border</div>
+            <div class="starred material-icons" (click)="unlike(url)" *ngIf="url.likes && url.likes[userUID]">star</div>
+            <div class="star-count">{{ (url.likes || {}) | count }}</div>
           </span>
-          <div class="text">{{ url.val().text }}</div>
+          <div class="text">{{ url.text }}</div>
           <div class="comments-container"></div>
           <form class="add-comment" action="#">
             <div class="mdl-textfield mdl-js-textfield">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 import { Observable } from 'rxjs';
 
@@ -11,51 +11,42 @@ export class MainContentComponent {
   displayName: string;
   userUID: string;
   
-  urls: FirebaseListObservable<any>;
+  jsonURL: string;
+  
+  urls: any[] = [];
   displayPage: string;
 
-  constructor(private af: AngularFire) {
-    this.urls = af.database.list('/urls', { preserveSnapshot: true });    
+  constructor(private af: AngularFire, private _ngZone: NgZone) {
+    af.database.list('/urls').subscribe((urls) => {
+      this._ngZone.run(() => this.urls = urls);
+    });
+    
     this.af.auth.subscribe((state: FirebaseAuthState) => {
-          if (state) {
-            this.displayName = state.auth.displayName || 'Anonymous';
-            this.userUID = state.auth.uid;
-          } else {
-            this.displayName = null;
-            this.userUID = null;
-          }
+        if (state) {
+          this.displayName = state.auth.displayName || 'Anonymous';
+          this.userUID = state.auth.uid;
+        } else {
+          this.displayName = null;
+          this.userUID = null;
+        }
       });
     
     this.displayPage = 'posts';
   }
   
-  like(url: firebase.database.DataSnapshot) {
+  like(url) {
     if (this.userUID) {
-      url.ref.child('likes/' + this.userUID).set(true);
+      let updatedLikes = {};
+      updatedLikes[this.userUID] = true;
+      
+      this.af.database.list('/urls/' + url.$key).update('likes', updatedLikes);
     }
   }
   
-  unlike(url: firebase.database.DataSnapshot) {
+  unlike(url) {
     if (this.userUID) {
-      url.ref.child('likes/' + this.userUID).remove();
+      this.af.database.list('/urls/' + url.$key + '/likes').remove(this.userUID);
     }
-  }
-  
-  doesUserLike(url: firebase.database.DataSnapshot) {
-    return Observable.create((observer) => {
-        url.ref.child('likes').on('value', (snapshot) => {
-          if (this.userUID) observer.next(snapshot.hasChild(this.userUID));
-          else observer.next(false);
-        });
-      });
-  }
-  
-  countUrlLikes(url: firebase.database.DataSnapshot) {
-    return Observable.create((observer) => {
-        url.ref.on('value', (snapshot: any) => {
-          observer.next(snapshot.child('likes').numChildren());
-        });
-      });
   }
   
   logout() {
