@@ -14,7 +14,7 @@
               <input class="mdl-textfield__input" rows="3" id="new-post-message" name="message" [(ngModel)]="message" placeholder="Url..." required />
             </div>
             <br />
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" (click)="addPost()">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" [disabled]="!message" (click)="addPost()">
               Add URL
             </button>
           </form>

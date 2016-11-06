@@ -129,10 +129,6 @@ h3 {
     margin-left: 10px;
     color: inherit;
 }
-#sign-out-button {
-    margin: 10px;
-    color: inherit;
-}
 .mdl-button .material-icons {
     margin-top: -2px;
 }
@@ -164,17 +160,20 @@ h3 {
 }
 #add {
     position: absolute;
-    right: 20px;
     top: 18px;
     z-index: 998;
 }
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 1024px) {
     #add {
         position: fixed;
         bottom: 10px;
         right: 10px;
         z-index: 998;
         top: auto;
+    }
+    
+    main {
+      margin-bottom: 27px;
     }
 }
 #sign-out-button {

@@ -1,0 +1,27 @@
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+    <h4 class="mdl-card__title-text">{{ url.author }}</h4>
+  </div>
+  <div class="header"></div>
+  <span class="star">
+    <div class="not-starred material-icons" (click)="like()" *ngIf="!(url.likes && url.likes[auth.getUserUID()])">star_border</div>
+    <div class="starred material-icons" (click)="unlike()" *ngIf="url.likes && url.likes[auth.getUserUID()]">star</div>
+    <div class="star-count">{{ (url.likes || {}) | count }}</div>
+  </span>
+  <div class="text">{{ url.text }}</div>
+  <div class="comments-container">
+    <ul class="mdl-list">
+      <li class="mdl-list__item mdl-list__item--three-line" *ngFor="let comment of url.comments | values">
+        <span class="mdl-list__item-primary-content">
+          <span>{{comment.author}}</span>
+          <span class="mdl-list__item-text-body">{{comment.comment}}</span>
+        </span>
+      </li>
+    </ul>
+  </div>
+  <form class="add-comment" action="#">
+    <div class="mdl-textfield mdl-js-textfield">
+      <input #comment class="mdl-textfield__input new-comment" type="text" placeholder="Comment..." (keyup.enter)="addComment(comment.value)">
+    </div>
+  </form>
+</div>

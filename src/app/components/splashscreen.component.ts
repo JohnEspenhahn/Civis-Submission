@@ -3,7 +3,13 @@ import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 
 @Component({
   selector: 'splashscreen',
-  templateUrl: './splashscreen.component.html'
+  templateUrl: './splashscreen.component.html',
+  styles: [`
+    .logo {
+      text-align: center;
+    }
+  `
+  ]
 })
 export class SplashScreenComponent {
 

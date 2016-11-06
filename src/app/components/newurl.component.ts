@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
-import 'firebase';
+import { AuthService } from '../services/authservice.service';
 
 @Component({
   selector: 'newurl',
@@ -13,24 +13,20 @@ export class NewUrlComponent {
 
   message: string;
   
-  constructor(private af: AngularFire) {
-    this.message = "";
+  constructor(private af: AngularFire, private auth: AuthService) {
+    this.message = '';
   }
   
   addPost() {
-    if (this.message) {
-      var subscription = this.af.auth.subscribe((state: FirebaseAuthState) => {
-            const username = state.auth.displayName || 'Anonymous';
-            const urls = this.af.database.list('/urls');
-            urls.push({
-              likes: {},
-              text: this.message,
-              author: username
-            });
-            
-            this.onFinished.emit();
-            subscription.unsubscribe();
-        });
+    if (this.message && this.auth.getDisplayName()) {
+      this.af.database.list('/urls').push({
+        likes: {},
+        comments: {},
+        text: this.message,
+        author: this.auth.getDisplayName()
+      });
+      
+      this.onFinished.emit();
     }
   }
 }

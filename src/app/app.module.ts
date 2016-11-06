@@ -2,11 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule }   from '@angular/forms';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+
 import { SplashScreenComponent } from './components/splashscreen.component';
 import { MainContentComponent } from './components/maincontent.component';
 import { NewUrlComponent } from './components/newurl.component';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-
+import { UrlComponent } from './components/url.component';
+import { AuthService } from './services/authservice.service';
+import { ValuesPipe } from './pipes/valuespipe.pipe';
 import { CountPipe } from './pipes/count.pipe';
 
 // Must export the config
@@ -34,7 +37,12 @@ const myFirebaseAuthConfig = {
     SplashScreenComponent,
     MainContentComponent,
     NewUrlComponent,
+    UrlComponent,
+    ValuesPipe,
     CountPipe
+  ],
+  providers: [
+    AuthService
   ],
   bootstrap: [ AppComponent ]
 })

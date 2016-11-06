@@ -1,6 +1,27 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    ".read": "true",
+    ".write": "true",
+    
+    "urls": {
+      ".validate": "newData.hasChildren(['text', 'likes', 'comments'])",
+      
+      "text": {
+        ".validate": "newData.isString() && newData.val().length > 0"
+      },
+      "author": {
+        ".validate": "newData.isString() && newData.val().length > 0"
+      },
+      "comments": {
+        ".validate": "newData.hasChildren(['author', 'comment'])",
+        
+        "author": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "comment": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        }
+      }
+    }
   }
 }
