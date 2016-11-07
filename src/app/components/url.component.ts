@@ -1,18 +1,34 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AngularFire } from 'angularfire2';
+import { Component, Input, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { AuthService } from '../services/authservice.service';
 import { Observable } from 'rxjs';
+import 'firebase';
 
 @Component({
   selector: 'url',
-  templateUrl: './url.component.html'
+  templateUrl: './url.component.html',
+  styles: [`
+    h4 {
+      padding-right: 50px;
+    }
+  `]
 })
-export class UrlComponent {
+export class UrlComponent implements OnInit {
 
   @Input()
   url;
   
-  constructor(public af: AngularFire, public auth: AuthService) { }
+  private comments = {};
+  
+  constructor(public af: AngularFire, public auth: AuthService, private _ngZone: NgZone) { }
+  
+  ngOnInit() {
+    this.af.database.list(`/url_comments/${this.url.$key}`).subscribe(cs => {
+      this._ngZone.run(() => {
+        this.comments = cs;
+      });
+    });
+  }
   
   like() {
     if (this.auth.getUserUID()) {
@@ -31,7 +47,10 @@ export class UrlComponent {
   
   addComment(comment) {
     if (this.auth.getDisplayName()) {
-      this.af.database.list(`/urls/${this.url.$key}/comments`).push({ author: this.auth.getDisplayName(), comment: comment });
+      this.af.database.list(`/url_comments/${this.url.$key}`).push({
+        author: this.auth.getDisplayName(), 
+        comment: comment 
+      });
     }
   }
   

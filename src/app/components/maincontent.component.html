@@ -23,11 +23,9 @@
   <newurl *ngIf="displayPage == 'newurl'" (onFinished)="viewRecentPosts()"></newurl>
   
   <!-- Show a list of recent posts -->
-  <section class="mdl-grid content" id="recent-posts-list" *ngIf="displayPage == 'posts'">
-    <div ngForm class="posts-container mdl-cell mdl-cell--12-col mdl-grid">
-      <div *ngFor="let url of urls" class="post mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--4-col-desktop mdl-grid mdl-grid--no-spacing">
-        <url [url]="url"></url>
-      </div>
+  <section ngForm class="mdl-grid content" id="recent-posts-list" *ngIf="displayPage == 'posts'">
+    <div *ngFor="let url of urls" class="post mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--4-col-desktop mdl-grid">
+      <url [url]="url"></url>
     </div>
   </section>
 </main>

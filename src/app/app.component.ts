@@ -8,11 +8,7 @@ import { AngularFire, FirebaseListObservable, FirebaseAuth } from 'angularfire2'
 })
 export class AppComponent {
   
-  url_entities: FirebaseListObservable<any>;
-  
-  constructor(private af: AngularFire, private auth: FirebaseAuth) {
-    this.url_entities = af.database.list('/urls');
-  }
+  constructor(private af: AngularFire, private auth: FirebaseAuth) { }
   
   logout() {
      this.af.auth.logout();

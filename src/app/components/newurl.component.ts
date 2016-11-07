@@ -21,7 +21,6 @@ export class NewUrlComponent {
     if (this.message && this.auth.getDisplayName()) {
       this.af.database.list('/urls').push({
         likes: {},
-        comments: {},
         text: this.message,
         author: this.auth.getDisplayName()
       });

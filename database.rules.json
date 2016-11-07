@@ -4,22 +4,29 @@
     ".write": "true",
     
     "urls": {
-      ".validate": "newData.hasChildren(['text', 'likes', 'comments'])",
-      
-      "text": {
-        ".validate": "newData.isString() && newData.val().length > 0"
-      },
-      "author": {
-        ".validate": "newData.isString() && newData.val().length > 0"
-      },
-      "comments": {
-        ".validate": "newData.hasChildren(['author', 'comment'])",
+      "$url": {
+        ".validate": "newData.hasChildren(['text', 'author'])",
         
-        "author": {
+        "text": {
           ".validate": "newData.isString() && newData.val().length > 0"
         },
-        "comment": {
+        "author": {
           ".validate": "newData.isString() && newData.val().length > 0"
+        }
+      }
+    },
+    
+    "url_comments": {   
+      "$url_key": {
+        "$comment_key": {
+          ".validate": "newData.hasChildren(['comment', 'author']) && root.child('urls/' + $url_key).exists()",
+        
+          "author": {
+            ".validate": "newData.isString() && newData.val().length > 0"
+          },
+          "comment": {        
+            ".validate": "newData.isString() && newData.val().length > 0"
+          }
         }
       }
     }
