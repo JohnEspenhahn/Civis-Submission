@@ -13,9 +13,7 @@ export class MainContentComponent {
 
   constructor(private af: AngularFire, private _ngZone: NgZone) {
     af.database.list('/urls').subscribe((urls) => {
-      this._ngZone.run(() => {
-        this.urls = urls;
-      });
+      this._ngZone.run(() => this.urls = urls );
     });
     
     this.displayPage = 'posts';

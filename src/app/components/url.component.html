@@ -2,9 +2,9 @@
   <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
     <h4 class="mdl-card__title-text">{{ url.author }}</h4>
     <span class="star">
-      <div class="not-starred material-icons" (click)="like()" *ngIf="!(url.likes && url.likes[auth.getUserUID()])">star_border</div>
-      <div class="starred material-icons" (click)="unlike()" *ngIf="url.likes && url.likes[auth.getUserUID()]">star</div>
-      <div class="star-count">{{ (url.likes || {}) | count }}</div>
+      <div class="not-starred material-icons" (click)="like()" *ngIf="!doesUserLike()">star_border</div>
+      <div class="starred material-icons" (click)="unlike()" *ngIf="doesUserLike()">star</div>
+      <div class="star-count">{{ likes | count }}</div>
     </span>
   </div>
   <div class="header"></div>

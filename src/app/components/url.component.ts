@@ -18,16 +18,29 @@ export class UrlComponent implements OnInit {
   @Input()
   url;
   
-  private comments = {};
+  private comments = [];
+  private likes = [];
   
   constructor(public af: AngularFire, public auth: AuthService, private _ngZone: NgZone) { }
   
   ngOnInit() {
-    this.af.database.list(`/url_comments/${this.url.$key}`).subscribe(cs => {
-      this._ngZone.run(() => {
-        this.comments = cs;
-      });
+    var comments_sub = this.af.database.list(`/url_comments/${this.url.$key}`).subscribe(cs => {
+      this._ngZone.run(() => this.comments = cs );
     });
+    
+    var likes_sub = this.af.database.list(`/url_likes/${this.url.$key}`).subscribe(ls => {
+      this._ngZone.run(() => this.likes = ls );
+    });
+  }
+  
+  doesUserLike() {
+    if (this.auth.getUserUID()) {
+      for (let like of this.likes) {
+        if (like.$key == this.auth.getUserUID()) return true;
+      }
+    }
+    
+    return false;
   }
   
   like() {
@@ -35,13 +48,13 @@ export class UrlComponent implements OnInit {
       let updatedLikes = {};
       updatedLikes[this.auth.getUserUID()] = true;
       
-      this.af.database.list(`/urls/${this.url.$key}`).update('likes', updatedLikes);
+      this.af.database.list(`/url_likes`).update(this.url.$key, updatedLikes);
     }
   }
   
   unlike() {
     if (this.auth.getUserUID()) {
-      this.af.database.list(`/urls/${this.url.$key}/likes`).remove(this.auth.getUserUID());
+      this.af.database.list(`/url_likes/${this.url.$key}`).remove(this.auth.getUserUID());
     }
   }
   

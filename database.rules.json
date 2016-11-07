@@ -29,6 +29,14 @@
           }
         }
       }
+    },
+    
+    "url_likes": {
+      "$url_key": {
+        "$uid": {
+          ".validate": "newData.isBoolean() && root.child('urls/' + $url_key).exists() && root.child('users/' + $uid).exists()"
+        }
+      }
     }
   }
 }
