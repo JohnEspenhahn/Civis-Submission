@@ -20,7 +20,6 @@ export class NewUrlComponent {
   addPost() {
     if (this.message && this.auth.getDisplayName()) {
       this.af.database.list('/urls').push({
-        likes: {},
         text: this.message,
         author: this.auth.getDisplayName()
       });

@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { AuthService } from '../services/authservice.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import 'firebase';
 
 @Component({
@@ -13,7 +13,7 @@ import 'firebase';
     }
   `]
 })
-export class UrlComponent implements OnInit {
+export class UrlComponent implements OnInit, OnDestroy {
 
   @Input()
   url;
@@ -21,14 +21,17 @@ export class UrlComponent implements OnInit {
   private comments = [];
   private likes = [];
   
+  private comments_sub: Subscription;
+  private likes_sub: Subscription;
+  
   constructor(public af: AngularFire, public auth: AuthService, private _ngZone: NgZone) { }
   
   ngOnInit() {
-    var comments_sub = this.af.database.list(`/url_comments/${this.url.$key}`).subscribe(cs => {
+    this.comments_sub = this.af.database.list(`/url_comments/${this.url.$key}`).subscribe(cs => {
       this._ngZone.run(() => this.comments = cs );
     });
     
-    var likes_sub = this.af.database.list(`/url_likes/${this.url.$key}`).subscribe(ls => {
+    this.likes_sub = this.af.database.list(`/url_likes/${this.url.$key}`).subscribe(ls => {
       this._ngZone.run(() => this.likes = ls );
     });
   }
@@ -65,6 +68,11 @@ export class UrlComponent implements OnInit {
         comment: comment 
       });
     }
+  }
+  
+  ngOnDestroy() {
+    if (this.likes_sub) this.likes_sub.unsubscribe();
+    if (this.comments_sub) this.comments_sub.unsubscribe();
   }
   
 }
