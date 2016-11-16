@@ -18,8 +18,8 @@ export class UrlComponent implements OnInit, OnDestroy {
   @Input()
   url;
   
-  private comments = [];
-  private likes = [];
+  private comments = {};
+  private likes = {};
   
   private comments_sub: Subscription;
   private likes_sub: Subscription;
